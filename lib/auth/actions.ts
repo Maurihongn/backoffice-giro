@@ -1,10 +1,9 @@
 "use server";
 
+import { SignInProps } from "@/schema/auth";
+import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
-import { SignInProps } from "@/schema/auth";
-import { Session } from "inspector/promises";
 
 export interface SignInResponse {
   token: string;
@@ -27,6 +26,7 @@ export interface SessionData {
 }
 
 export async function signin(credentials: SignInProps) {
+
   try {
     const response = await fetch(`${process.env.API_URL}/auth/token`, {
       method: "POST",
@@ -35,6 +35,7 @@ export async function signin(credentials: SignInProps) {
       },
       body: JSON.stringify(credentials),
     });
+
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);

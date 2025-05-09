@@ -3,6 +3,7 @@
 import {
   BookOpen,
   Bot,
+  ChartBar,
   Command,
   Frame,
   LifeBuoy,
@@ -10,6 +11,7 @@ import {
   PieChart,
   Send,
   Settings2,
+  ShieldUser,
   SquareTerminal,
 } from "lucide-react";
 import * as React from "react";
@@ -21,10 +23,12 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import LogoutButton from "./logout-button";
+import NavSideBar from "./nav-sidebar";
+import { PublicNavSection } from "@/types/navigation";
 
 const data = {
   user: {
@@ -150,14 +154,53 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+const nav = [
+  {
+    title: "Estadísticas",
+    url: "/charts",
+    icon: ChartBar,
+    items: [
+      {
+        title: "Agronegocios",
+        url: "/charts/agronegocios",
+      },
+      {
+        title: "Logística",
+        url: "/charts/logistica",
+      },
+    ],
+  },
+  {
+    title: "Administración",
+    url: "/admin",
+    icon: ShieldUser,
+    items: [
+      {
+        title: "Usuarios",
+        url: "/admin/users",
+      },
+      {
+        title: "Roles",
+        url: "/admin/roles",
+      },
+    ],
+  },
+];
+
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  filteredNavigation: PublicNavSection[];
+};
+
+export function AppSidebar({ filteredNavigation, ...props }: AppSidebarProps) {
   const isMobile = useIsMobile();
+
+  console.log({ filteredNavigation });
   return (
     <Sidebar
       collapsible="icon"
       variant="inset"
       {...props}
-      className="inset-y-auto h-full"
+      className="inset-y-auto  md:h-[calc(100vh-4rem)]"
     >
       {isMobile && (
         <SidebarHeader>
@@ -180,13 +223,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       )}
 
       <SidebarContent>
-        {/* <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}<SidebarMenu>
-          <SidebarMenuItem>
-            <LogoutButton />
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavSideBar items={filteredNavigation} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

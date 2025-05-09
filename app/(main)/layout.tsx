@@ -9,6 +9,7 @@ import {
 import { AppSidebar } from "./_components/app-sidebar";
 import { ModeToggle } from "@/components/theme-toggle";
 import { Truck } from "lucide-react";
+import { filterNavigationByRoles } from "@/lib/navigation";
 
 export default async function Layout({
   children,
@@ -21,12 +22,16 @@ export default async function Layout({
     redirect("/sign-in");
   }
 
-  console.log(session);
+  const { userId, role } = session;
+
+  const filteredNavigation = filterNavigationByRoles([role]);
+
+
   return (
     <SidebarProvider className="flex-1">
       <section className="flex min-h-screen flex-col w-full">
-        <header className="px-4 py-3">
-          <div className="flex items-center">
+        <header className="px-4 h-16 flex items-center w-full">
+          <div className="flex items-center w-full">
             <SidebarTrigger />
             <div className="flex gap-2 items-center">
               <Truck />
@@ -39,22 +44,21 @@ export default async function Layout({
             </div>
             <div className="ml-auto flex items-center gap-2">
               <ModeToggle />
-            
-            <div>
-              <span className="mr-2 text-sm text-muted-foreground">
-                Role: {session.role}
-              </span>
-              <span className="mr-4 text-xs text-muted-foreground">
-                Última actualización:{" "}
-                {dayjs(session.lastUpdated).format("DD/MM/YYYY HH:mm")}
-              </span>
-              
-            </div>
+
+              <div>
+                <span className="mr-2 text-sm text-muted-foreground">
+                  Role: {session.role}
+                </span>
+                <span className="mr-4 text-xs text-muted-foreground">
+                  Última actualización:{" "}
+                  {dayjs(session.lastUpdated).format("DD/MM/YYYY HH:mm")}
+                </span>
+              </div>
             </div>
           </div>
         </header>
         <section className="flex flex-1">
-          <AppSidebar />
+          <AppSidebar filteredNavigation={filteredNavigation}/>
           <SidebarInset>
             <section className="p-6">{children}</section>
           </SidebarInset>
