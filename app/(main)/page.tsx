@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function Page() {
@@ -25,6 +26,8 @@ export default function Page() {
         <Button variant={"ghost"} className="mt-4">
           Fantasma
         </Button>
+
+        <Input type="date" />
       </CardContent>
     </Card>
   );

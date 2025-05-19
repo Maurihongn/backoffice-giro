@@ -1,12 +1,11 @@
 import { NavSection, PublicNavSection } from "@/types/navigation";
 
-
-
 export const fullNavigation: NavSection[] = [
   {
     title: "Home",
     url: "/",
     section: "home",
+    icon: "Home",
     roles: [],
     items: [],
   },
@@ -14,6 +13,7 @@ export const fullNavigation: NavSection[] = [
     title: "Estadísticas",
     url: "/charts",
     section: "charts",
+    icon: "ChartArea",
     roles: ["SUPERADMIN", "admin", "manager", "analyst"],
     items: [
       {
@@ -32,6 +32,7 @@ export const fullNavigation: NavSection[] = [
     title: "Administración",
     url: "/admin",
     section: "admin",
+    icon: "ShieldUser",
     roles: ["SUPERADMIN", "admin"],
     items: [
       {
@@ -50,6 +51,7 @@ export const fullNavigation: NavSection[] = [
     title: "Administración ROI",
     url: "/admin-roi",
     section: "admin-roi",
+    icon: "AdminROI",
     roles: ["SUPERADMIN", "admin"],
     items: [],
   },
@@ -57,6 +59,7 @@ export const fullNavigation: NavSection[] = [
     title: "Cuentas",
     url: "/accounts",
     section: "accounts",
+    icon: "UserRoundCog",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [
       {
@@ -75,6 +78,7 @@ export const fullNavigation: NavSection[] = [
     title: "Facturas",
     url: "/invoices",
     section: "invoices",
+    icon: "Receipt",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [
       {
@@ -88,6 +92,7 @@ export const fullNavigation: NavSection[] = [
     title: "Reportes solicitados",
     url: "/reports",
     section: "reports",
+    icon: "FileSpreadsheet",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [],
   },
@@ -95,6 +100,7 @@ export const fullNavigation: NavSection[] = [
     title: "Viajes conciliados pendientes de afetar a fletes",
     url: "/shipping",
     section: "shipping",
+    icon: "Truck",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [],
   },
@@ -102,6 +108,7 @@ export const fullNavigation: NavSection[] = [
     title: "Adelantos",
     url: "/advances",
     section: "advances",
+    icon: "CircleDollarSign",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [],
   },
@@ -109,6 +116,7 @@ export const fullNavigation: NavSection[] = [
     title: "Cobra ya",
     url: "/cobra-ya",
     section: "cobra-ya",
+    icon: "Zap",
     roles: ["SUPERADMIN", "admin", "manager", "sales"],
     items: [
       {
@@ -164,6 +172,7 @@ export function filterNavigationByRoles(
         title: section.title,
         url: section.url,
         section: section.section,
+        icon: section.icon, // Mantenemos el icono en la navegación filtrada
         items: filteredItems,
       };
     });

@@ -59,7 +59,7 @@ export default async function Layout({
         </header>
         <section className="flex flex-1">
           <AppSidebar filteredNavigation={filteredNavigation}/>
-          <SidebarInset>
+          <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0">
             <section className="p-6">{children}</section>
           </SidebarInset>
         </section>

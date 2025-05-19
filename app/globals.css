@@ -136,3 +136,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Asegurar que los iconos se muestren correctamente en el sidebar */
+/* .sidebar-menu-button svg {
+  min-width: 1rem;
+  min-height: 1rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+} */
+
+/* Cuando el sidebar está colapsado */
+/* [data-collapsible="icon"] .sidebar-menu-button svg {
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+} */
+
+
+.rdp-vhidden {
+  @apply hidden;
+}
