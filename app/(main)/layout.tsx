@@ -17,15 +17,15 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await getSession();
+  const environment = process.env.ENV;
 
   if (!session) {
     redirect("/sign-in");
   }
 
-  const {  role } = session;
+  const { role } = session;
 
   const filteredNavigation = filterNavigationByRoles([role]);
-
 
   return (
     <SidebarProvider className="flex-1">
@@ -41,6 +41,7 @@ export default async function Layout({
                 </p>
                 <span>fletes</span>
               </div>
+              <pre>{environment}</pre>
             </div>
             <div className="ml-auto flex items-center gap-2">
               <ModeToggle />
@@ -58,7 +59,7 @@ export default async function Layout({
           </div>
         </header>
         <section className="flex flex-1">
-          <AppSidebar filteredNavigation={filteredNavigation}/>
+          <AppSidebar filteredNavigation={filteredNavigation} />
           <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0">
             <section className="p-6">{children}</section>
           </SidebarInset>
