@@ -22,9 +22,9 @@ import { SignInProps, SignInSchema } from "@/schema/auth";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type Props = {};
-export default function SignInForm({}: Props) {
-  const [showPassword, setShowPassword] = useState<Boolean>(false);
+
+export default function SignInForm() {
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";

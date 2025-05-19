@@ -7,11 +7,16 @@ export default function GlobalError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+ 
   return (
     // global-error must include html and body tags
     <html>
       <body>
         <h2>Something went wrong!</h2>
+        <pre>
+          {error.message}
+          {error?.digest && `\n\nDigest: ${error.digest}`}
+        </pre>
         <button onClick={() => reset()}>Try again</button>
       </body>
     </html>

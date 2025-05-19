@@ -1,15 +1,15 @@
-import { getSession } from "@/lib/auth/actions";
-import { redirect } from "next/navigation";
-import dayjs from "dayjs";
+import { ModeToggle } from "@/components/theme-toggle";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { AppSidebar } from "./_components/app-sidebar";
-import { ModeToggle } from "@/components/theme-toggle";
-import { Truck } from "lucide-react";
+import { getSession } from "@/lib/auth/actions";
 import { filterNavigationByRoles } from "@/lib/navigation";
+import dayjs from "dayjs";
+import { Truck } from "lucide-react";
+import { redirect } from "next/navigation";
+import { AppSidebar } from "./_components/app-sidebar";
 
 export default async function Layout({
   children,
@@ -22,7 +22,7 @@ export default async function Layout({
     redirect("/sign-in");
   }
 
-  const { userId, role } = session;
+  const {  role } = session;
 
   const filteredNavigation = filterNavigationByRoles([role]);
 

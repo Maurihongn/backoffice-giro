@@ -1,18 +1,7 @@
 "use client";
 
 import {
-  BookOpen,
-  Bot,
-  ChartBar,
-  Command,
-  Frame,
-  LifeBuoy,
-  Map,
-  PieChart,
-  Send,
-  Settings2,
-  ShieldUser,
-  SquareTerminal,
+  Command
 } from "lucide-react";
 import * as React from "react";
 
@@ -20,16 +9,15 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "@/components/ui/sidebar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { PublicNavSection } from "@/types/navigation";
 import LogoutButton from "./logout-button";
 import NavSideBar from "./nav-sidebar";
-import { PublicNavSection } from "@/types/navigation";
 
 
 

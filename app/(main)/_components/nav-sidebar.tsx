@@ -15,7 +15,7 @@ import {
 import { getIconComponent } from "@/lib/navigation-icons";
 import { cn } from "@/lib/utils";
 import { PublicNavSection } from "@/types/navigation";
-import { ChevronRight, HomeIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { ComponentType, SVGProps } from "react";
 
