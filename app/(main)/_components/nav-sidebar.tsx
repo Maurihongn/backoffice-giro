@@ -45,6 +45,8 @@ function SidebarIcon({
   );
 }
 export default function NavSideBar({ items }: Props) {
+
+  console.log({items})
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -57,11 +59,7 @@ export default function NavSideBar({ items }: Props) {
                 <CollapsibleTrigger asChild>
                   <SidebarMenuButton tooltip={item.title} size={"lg"}>
                     {IconComponent && (
-                      // <span className="flex items-center justify-center w-5 h-5 mr-2">
-                      // <div className="flex items-center justify-center">
                       <SidebarIcon icon={IconComponent} size={"lg"} />
-                      // </div>
-                      // </span>
                     )}
 
                     <span>{item.title}</span>
