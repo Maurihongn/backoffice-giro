@@ -33,7 +33,10 @@ export function AppSidebar({ filteredNavigation, ...props }: AppSidebarProps) {
       collapsible="icon"
       variant="inset"
       {...props}
-      className="inset-y-auto  md:h-[calc(100vh-4rem)]"
+      // className="inset-y-auto  md:h-[calc(100vh-4rem)]"
+      // className="top-[--header-height] !h-[calc(100svh-var(--header-height))]"
+
+      className="top-16 !h-[calc(100svh-4rem)]"
     >
       {isMobile && (
         <SidebarHeader>

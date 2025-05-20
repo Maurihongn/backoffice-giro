@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { Truck } from "lucide-react";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "./_components/app-sidebar";
+import SiteHeader from "./_components/site-header";
 
 export default async function Layout({
   children,
@@ -17,7 +18,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const session = await getSession();
-  const environment = process.env.ENV;
+  const environment = process.env.ENV as "development" | "production";
 
   if (!session) {
     redirect("/sign-in");
@@ -28,43 +29,15 @@ export default async function Layout({
   const filteredNavigation = filterNavigationByRoles([role]);
 
   return (
-    <SidebarProvider className="flex-1">
-      <section className="flex min-h-screen flex-col w-full">
-        <header className="px-4 h-16 flex items-center w-full">
-          <div className="flex items-center w-full">
-            <SidebarTrigger />
-            <div className="flex gap-2 items-center">
-              <Truck />
-              <div>
-                <p>
-                  GIRO<span>.ar</span>
-                </p>
-                <span>fletes</span>
-              </div>
-              <pre>{environment}</pre>
-            </div>
-            <div className="ml-auto flex items-center gap-2">
-              <ModeToggle />
-
-              <div>
-                <span className="mr-2 text-sm text-muted-foreground">
-                  Role: {session.role}
-                </span>
-                <span className="mr-4 text-xs text-muted-foreground">
-                  Última actualización:{" "}
-                  {dayjs(session.lastUpdated).format("DD/MM/YYYY HH:mm")}
-                </span>
-              </div>
-            </div>
-          </div>
-        </header>
+    <SidebarProvider className="flex flex-col">
+        <SiteHeader environment={environment!} />
         <section className="flex flex-1">
           <AppSidebar filteredNavigation={filteredNavigation} />
-          <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0">
-            <section className="p-6">{children}</section>
+          <SidebarInset className="md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-0 ">
+
+            <section className="p-2 md:p-4 flex-1 flex flex-col absolute top-0 right-0 left-0 bottom-0">{children}</section>
           </SidebarInset>
         </section>
-      </section>
     </SidebarProvider>
   );
 }

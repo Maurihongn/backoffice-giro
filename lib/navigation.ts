@@ -304,7 +304,5 @@ export function filterNavigationByRoles(
         items: filteredItems,
       };
     });
-    
-  console.log(fullNav);
   return fullNav;
 }
