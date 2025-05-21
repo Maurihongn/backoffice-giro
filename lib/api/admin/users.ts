@@ -1,4 +1,4 @@
-import { SessionData } from "@/lib/auth/actions";
+import { SessionData } from "@/lib/actions/auth";
 import { GetUsersResponse } from "@/types/users";
 import { cookies } from "next/headers";
 

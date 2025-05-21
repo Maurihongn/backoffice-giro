@@ -1,5 +1,6 @@
 "use client";
 import FilledInput from "@/components/ui-customs/filled-input";
+import { FilledSelect } from "@/components/ui-customs/filled-select";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -8,58 +9,79 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { SelectItem } from "@/components/ui/select";
+import { createUserAction } from "@/lib/actions/user/create-user";
 import {
   CreateUserFormData,
   createUserValidationSchema,
 } from "@/schema/create-user";
-import { CommonApiResponse } from "@/types/responses";
+import { GetRolesResponse } from "@/types/roles";
+import { GetSapCeCoResponse } from "@/types/sapceco";
+import { GetUserTypesResponse } from "@/types/user-types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import RoleSelect from "./role-select";
-import AccountTypeSelect from "./account-type-select";
 import PlantsSelect from "./plants-select";
 
 type Props = {
-  mutation: UseMutationResult<
-    CommonApiResponse,
-    Error,
-    CreateUserFormData,
-    unknown
-  >;
-  validationSchema: typeof createUserValidationSchema;
+  type: "create" | "edit";
+  plants: GetSapCeCoResponse;
+  roles: GetRolesResponse;
+  usertypes: GetUserTypesResponse;
   data?: CreateUserFormData;
 };
-export default function UsersForm({ mutation, validationSchema, data }: Props) {
+export default function UsersForm({
+  type,
+  plants,
+  roles,
+  usertypes,
+  data,
+}: Props) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const validationSchema =
+    type === "create" ? createUserValidationSchema : createUserValidationSchema;
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
   const form = useForm<CreateUserFormData>({
-    // defaultValues:{
-    //   userId: data?.userId || "",
-    //   username: data?.username || "",
-    //   password: data?.password || "",
-    //   name: data?.name || "",
-    //   lastname: data?.lastname || "",
-    //   passportId: data?.passportId || "",
-    //   address: data?.address || "",
-    //   photo: data?.photo || "",
-    //   email: data?.email || "",
-    //   whatsApp: data?.whatsApp || "",
-    //   typeId: data?.typeId || "",
-    //   roleName: data?.roleName || "",
-    //   userProfilePlantas: data?.userProfilePlantas || [],
-    // },
-    resolver: zodResolver(createUserValidationSchema),
+    defaultValues: {
+      // userId: data?.userId ?? "",
+      username: data?.username ?? "",
+      password: data?.password ?? "",
+      name: data?.name ?? "",
+      lastname: data?.lastname ?? "",
+      // passportId: data?.passportId ?? "",
+      address: data?.address ?? "",
+      // photo: data?.photo ?? "",
+      email: data?.email ?? "",
+      whatsApp: data?.whatsApp ?? "",
+      typeId: data?.typeId,
+      roleName: data?.roleName ?? "",
+      userProfilePlantas: data?.userProfilePlantas ?? [],
+    },
+    resolver: zodResolver(validationSchema),
+  });
+
+  const newUserMutation = useMutation({
+    mutationFn: createUserAction,
+    onSuccess: (data) => {
+      console.log("'new user mutation:", data);
+    },
   });
 
   const onSubmit = async (data: CreateUserFormData) => {
-    mutation.mutate(data);
+    if (type === "create") {
+      newUserMutation.mutate(data);
+    } else {
+      // edit mutation
+    }
   };
+
+  const mutation = type === "create" ? newUserMutation : newUserMutation;
   return (
     <Form {...form}>
       <form
@@ -224,12 +246,75 @@ export default function UsersForm({ mutation, validationSchema, data }: Props) {
           )}
         />
         {/* role */}
-        <RoleSelect />
+        <FormField
+          control={form.control}
+          name="roleName"
+          render={({ field, formState }) => (
+            <FormItem>
+              <FormControl>
+                <FilledSelect
+                  {...field}
+                  className="w-full"
+                  label="Rol"
+                  shrink={true}
+                  disabled={mutation.isPending}
+                  error={Boolean(formState.errors.roleName)}
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                  }}
+                >
+                  {roles.map((role) => (
+                    <SelectItem
+                      key={role.roleName}
+                      value={role.roleName}
+                      className="w-full"
+                    >
+                      {role.roleName}
+                    </SelectItem>
+                  ))}
+                </FilledSelect>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         {/* tipo de cuenta */}
-        <AccountTypeSelect />
+        <FormField
+          control={form.control}
+          name="typeId"
+          render={({ field, formState }) => (
+            <FormItem>
+              <FormControl>
+                <FilledSelect
+                  {...field}
+                  className="w-full"
+                  label="Tipo de cuenta"
+                  shrink={true}
+                  disabled={mutation.isPending}
+                  error={Boolean(formState.errors.typeId)}
+                  value={String(field.value)}
+                  onValueChange={(value) => {
+                    field.onChange(Number(value)); 
+                  }}
+                >
+                  {usertypes.map((userType) => (
+                    <SelectItem
+                      key={userType.id}
+                      value={String(userType.id)}
+                      className="w-full"
+                    >
+                      {userType.name}
+                    </SelectItem>
+                  ))}
+                </FilledSelect>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* plantas */}
-        <PlantsSelect />
+        <PlantsSelect plants={plants} />
       </form>
     </Form>
   );

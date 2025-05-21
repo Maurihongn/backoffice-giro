@@ -1,19 +1,16 @@
 import MultiSelectCombobox from "@/components/ui-customs/multi-select-combobox";
 import { getSAPCeCo } from "@/lib/api/admin/sapceco";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { GetSapCeCoResponse } from "@/types/sapceco";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-type Props = {};
-export default function PlantsSelect({}: Props) {
-  const getSAPCeCoQuery = useSuspenseQuery({
-    queryKey: ["SAPCeCos"],
-    queryFn: getSAPCeCo,
-    staleTime: 1000 * 60 * 5,
-  });
-
+type Props = {
+  plants: GetSapCeCoResponse;
+};
+export default function PlantsSelect({ plants }: Props) {
   const formattedData: {
     value: string;
     label: string;
-  }[] = getSAPCeCoQuery.data!.map((item) => ({
+  }[] = plants.map((item) => ({
     value: item.nroPlanta,
     label: item.planta,
   }));

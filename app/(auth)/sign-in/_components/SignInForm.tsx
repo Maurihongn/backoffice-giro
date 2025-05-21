@@ -17,7 +17,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 // import { login } from "../actions";
-import { signin } from "@/lib/auth/actions";
+import { signin } from "@/lib/actions/auth";
 import { SignInProps, SignInSchema } from "@/schema/auth";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";

@@ -1,24 +1,13 @@
-'use client'
-import { useMutation } from "@tanstack/react-query";
+"use server";
+import { getRoles } from "@/lib/api/admin/roles";
+import { getSAPCeCo } from "@/lib/api/admin/sapceco";
 import UsersForm from "../_components/users-form";
+import { getUserTypes } from "@/lib/api/admin/user-types";
 
-import { createUser } from "@/lib/api/admin/create-user";
-import { createUserValidationSchema } from "@/schema/create-user";
-
-
-
-
-
-export default function CreateUserPage() {
-  const newUserMutation = useMutation({
-    mutationFn: createUser,
-    onSuccess: (data) => {
-      console.log("Usuario creado con éxito:", data);
-    },
-    onError: (error) => {
-      console.error("Error al crear el usuario:", error);
-    },
-  });
+export default async function CreateUserPage() {
+  const plants = await getSAPCeCo();
+  const roles = await getRoles();
+  const userTypes = await getUserTypes();
 
   return (
     <>
@@ -26,8 +15,10 @@ export default function CreateUserPage() {
         <h1 className="text-2xl font-bold">Crear usuario</h1>
       </header>
       <UsersForm
-        mutation={newUserMutation}
-        validationSchema={createUserValidationSchema}
+        type="create"
+        plants={plants}
+        roles={roles}
+        usertypes={userTypes}
       />
     </>
   );

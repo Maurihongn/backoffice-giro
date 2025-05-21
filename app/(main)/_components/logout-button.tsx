@@ -1,6 +1,6 @@
 import SignOut from "@/components/icons/SignOut";
 import { SidebarMenuButton } from "@/components/ui/sidebar";
-import { logout } from "@/lib/auth/actions";
+import { logout } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils";
 
 export default function LogoutButton({

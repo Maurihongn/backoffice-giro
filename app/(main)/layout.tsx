@@ -4,7 +4,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { getSession } from "@/lib/auth/actions";
+import { getSession } from "@/lib/actions/auth";
 import { filterNavigationByRoles } from "@/lib/navigation";
 import dayjs from "dayjs";
 import { Truck } from "lucide-react";

@@ -59,6 +59,10 @@ export const createUserValidationSchema = z.object({
   roleName: z.string({
     required_error: "El rol es requerido",
   }),
+
+  typeId: z.number({
+    required_error: "El tipo de usuario es requerido",
+  }),
   userProfilePlantas: z.array(plantaSchema).optional(),
 });
 
