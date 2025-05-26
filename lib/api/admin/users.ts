@@ -1,5 +1,5 @@
 import { SessionData } from "@/lib/actions/auth";
-import { GetUsersResponse } from "@/types/users";
+import { GetUsersResponse, User } from "@/types/users";
 import { cookies } from "next/headers";
 
 interface GetUsersParams {
@@ -48,5 +48,30 @@ export async function getUsers({
     console.error("Error fetching users:", error);
     // Devolver datos vacíos en caso de error
     return { users: [], count: 0 };
+  }
+}
+
+export async function getUserById(id: string): Promise<User> {
+  try {
+    const cookieStore = await cookies();
+    const session = cookieStore.get("session")!.value;
+    const sessionData: SessionData = JSON.parse(session);
+
+    const response = await fetch(`${process.env.API_URL}/AuthUsers/get/${id}`, {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${sessionData.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error fetching user by ID: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    // Devolver un objeto vacío en caso de error
+    return {} as User;
   }
 }

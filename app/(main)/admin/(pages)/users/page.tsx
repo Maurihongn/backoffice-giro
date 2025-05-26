@@ -1,8 +1,11 @@
+import {
+  FilterBadge,
+  FilterBadges,
+} from "@/components/ui-customs/filter-badges";
 import { getUsers } from "@/lib/api/admin/users";
 import UsersHeader from "./_components/users-header";
-import UsersTable from "./_components/users-table";
 import { UsersPagination } from "./_components/users-pagination";
-import { FilterBadge, FilterBadges } from "@/components/ui-customs/filter-badges";
+import UsersTable from "./_components/users-table";
 
 interface UserPageProps {
   searchParams: Promise<{
@@ -47,7 +50,11 @@ export default async function UsersPage({ searchParams }: UserPageProps) {
       <UsersHeader />
       <FilterBadges filters={filterBadges} />
       <UsersTable users={users} permissions={permissions} />
-      <UsersPagination currentPage={pageNumber} totalPages={totalPages} pageSize={pageSize} />
+      <UsersPagination
+        currentPage={pageNumber}
+        totalPages={totalPages}
+        pageSize={pageSize}
+      />
     </div>
   );
 }

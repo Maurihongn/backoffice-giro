@@ -6,7 +6,13 @@ const API_URL = process.env.API_URL;
 export async function getUserTypes() {
   try {
     const userTypes = await apiGet<GetUserTypesResponse>(
-      `${API_URL}/AuthUsers/get-usertype`
+      `${API_URL}/AuthUsers/get-usertype`,
+      {
+        next: {
+          revalidate: 60 * 60, // Revalidar cada hora
+          tags: ["user-types"], // Etiquetas para invalidación de caché
+        },
+      }
     );
 
     return userTypes;

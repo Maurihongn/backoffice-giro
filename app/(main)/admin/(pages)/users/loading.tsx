@@ -1,7 +1,7 @@
+import TableSkeleton from "@/components/Skeletons/table-skeleton";
+
 export default function Loading() {
     return (
-        <div>
-            Loading...
-        </div>
+        <TableSkeleton/>
     );
 }

@@ -109,11 +109,11 @@ export default function UserTable({ users, permissions }: UserTableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Link href={`${row.original.userId}`}>Ver detalle</Link>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href={`/admin/users/${row.original.userId}`}>Ver detalle</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={`${row.original.userId}`}>Editar</Link>
+              <DropdownMenuItem asChild className="cursor-pointer">
+                <Link href={`/admin/users/${row.original.userId}/edit`}>Editar</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

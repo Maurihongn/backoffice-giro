@@ -26,7 +26,8 @@ type Item = {
 
 type MultiSelectComboboxProps = {
   data: Item[];
-  onChange: (selectedValues: string[]) => void;
+  value: Item[];
+  onChange: (selectedValues: Item[]) => void;
   label?: string;
   placeholder?: string;
   noResultsMessage?: string;
@@ -37,40 +38,47 @@ export default function MultiSelectCombobox({
   data = [],
   onChange,
   label,
+  value,
   placeholder,
   noResultsMessage = "No results found",
   selectedMessage = "Selected items",
 }: MultiSelectComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+  // const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
 
   // Get the labels of selected items
   const selectedLabels = React.useMemo(() => {
-    if (selectedValues.length === 0) return [];
+    if (value.length === 0) return [];
 
     return data
-      .filter((item) => selectedValues.includes(item.value))
+      .filter((item) => value.some((v) => v.value === item.value))
       .map((item) => item.label);
-  }, [selectedValues]);
+  }, [value]);
 
   // Toggle selection of an item
-  const toggleItem = (value: string) => {
-    setSelectedValues((current) => {
-      if (current.includes(value)) {
-        return current.filter((item) => item !== value);
-      } else {
-        return [...current, value];
-      }
-    });
+  const toggleItem = (item: string) => {
+    const result = value.some((v) => v.value === item);
+
+    if (result) {
+      // If the item is already selected, remove it
+      onChange(value.filter((v) => v.value !== item));
+    } else {
+      // If the item is not selected, add it
+      onChange([...value, { value: item, label: item }]);
+    }
   };
 
   // Remove a selected item
-  const removeItem = (value: string) => {
-    setSelectedValues((current) => current.filter((item) => item !== value));
+  const removeItem = (item: string) => {
+    const result = value.some((v) => v.value === item);
+    if (result) {
+      // If the item is already selected, remove it
+      onChange(value.filter((v) => v.value !== item));
+    }
   };
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -79,9 +87,7 @@ export default function MultiSelectCombobox({
             aria-expanded={open}
             className="w-full justify-between"
           >
-            {selectedValues.length > 0
-              ? `${selectedValues.length} seleccionados`
-              : label}
+            {value.length > 0 ? `${value.length} seleccionados` : label}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -102,7 +108,11 @@ export default function MultiSelectCombobox({
                       className="flex items-center gap-2"
                     >
                       <Checkbox
-                        checked={selectedValues.includes(item.value)}
+                        checked={
+                          value.some((v) => v.value === item.value)
+                            ? true
+                            : false
+                        }
                         onCheckedChange={() => toggleItem(item.value)}
                         aria-label={`Select ${item.label}`}
                         className="mr-2 h-4 w-4"
@@ -131,13 +141,17 @@ export default function MultiSelectCombobox({
                 className="flex items-center gap-1"
               >
                 {label}
-                <X
-                  className="h-3 w-3 cursor-pointer"
+                <Button
                   onClick={() => {
                     const value = data.find((f) => f.label === label)?.value;
                     if (value) removeItem(value);
                   }}
-                />
+                  variant="ghost"
+                  // size="icon"
+                  size={'sm'}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
               </Badge>
             ))}
           </div>

@@ -1,8 +1,10 @@
 "use server";
+import GoBackButton from "@/components/ui-customs/go-back-button";
 import { getRoles } from "@/lib/api/admin/roles";
 import { getSAPCeCo } from "@/lib/api/admin/sapceco";
-import UsersForm from "../_components/users-form";
 import { getUserTypes } from "@/lib/api/admin/user-types";
+import CreateUsersForm from "./_components/create-users-form";
+import FormSkeleton from "@/components/Skeletons/form-skeleton";
 
 export default async function CreateUserPage() {
   const plants = await getSAPCeCo();
@@ -11,15 +13,14 @@ export default async function CreateUserPage() {
 
   return (
     <>
-      <header className="flex items-center w-full gap-2">
+      <header className="flex flex-row-reverse justify-end items-center md:flex-col  md:items-start w-full">
         <h1 className="text-2xl font-bold">Crear usuario</h1>
+        <GoBackButton
+          title="Volver a la lista de usuarios"
+          href={"/admin/users"}
+        />
       </header>
-      <UsersForm
-        type="create"
-        plants={plants}
-        roles={roles}
-        usertypes={userTypes}
-      />
+      <CreateUsersForm plants={plants} roles={roles} usertypes={userTypes} />
     </>
   );
 }

@@ -26,6 +26,11 @@ export const fullNavigation: NavSection[] = [
         url: "/charts/logistica",
         roles: ["SUPERADMIN", "admin", "manager", "logistics"],
       },
+      {
+        title: "ROI",
+        url: "/charts/roi",
+        roles: ["SUPERADMIN", "admin", "manager", "analyst"],
+      },
     ],
   },
   {
@@ -249,7 +254,6 @@ export const fullNavigation: NavSection[] = [
 export function filterNavigationByRoles(
   userRoles: string[]
 ): PublicNavSection[] {
-
   const fullNav = fullNavigation
     .filter((section) => {
       // Primero verificamos si la sección está permitida para los roles del usuario
@@ -287,8 +291,7 @@ export function filterNavigationByRoles(
       const filteredItems = section.items
         .filter(
           (item) =>
-            !item.roles ||
-            item.roles.some((role) => userRoles.includes(role))
+            !item.roles || item.roles.some((role) => userRoles.includes(role))
         )
         .map(({ title, url }) => ({
           title,
